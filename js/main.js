@@ -12,19 +12,19 @@ function isDuplicate(names, phone) {
 	return isduplicate;
 }
 //reload the address list using ajax
-function displayAddressList(items) {
+var saveId = 0;
+
+function displayAddressList(name, phone) {
+	//debugger;
 	//empty the contacts lists
 	var list = $('#contacts-lists');
 	//save a client copy of the items array for validation whenever its refreshed from server
-	addresslist = items;
 	//loop thru all the items and add to the list
 	var lh = "";
-	for (var i = 0; i < items.length; i++) {
-		lh += "<li>" + items[i].names;
-		lh += " [ " + items[i].phone + " ] ";
-		lh += '<a href="#delete-id" class="deletebtn" contactid="' + items[i].id + '"> delete contact </a>'
-		lh += "</li>";
-	}
+	lh += "<li>" + name;
+	lh += " [ " + phone + " ] ";
+	lh += '<a href="#delete-id" class="deletebtn" contactid="' + saveId++ + '"> delete contact </a>'
+	lh += "</li>";
 	list.html(lh);
 	//set the delete button event after every reload
 	setDeleteButtonEvents()
@@ -49,23 +49,24 @@ function setSaveButtonEvent() {
 		} else if (name.match(/\d/)) {
 			$('#notice').empty().html('the name field must not contain numeric input').show('slow');
 		} else {
+
+			//************************** ADD FUNCTION ******************************************/
+			//************************** ADD FUNCTION ******************************************/
+
 			//call the ajax save function
 			$('#notice').empty().html('saving....').show();
-			$.ajax({
-				url: 'addressbook.php',
-				data: 'action=add&name=' + name + '&phone=' + phone,
-				dataType: 'json',
-				type: 'post',
-				success: function (j) {
-					//show the notice		  	
-					$('#notice').empty().html(j.msg);
-					//empty the input fields
-					$('#names').val('');
-					$('#phone').val('');
-					//refresh the address list
-					displayAddressList(j.contacts);
-				}
-			});
+
+			function saveRecord(name, phone) {
+				//empty the input fields
+				$('#names').val('');
+				$('#phone').val('');
+				localStorage.setItem(saveId, name);
+
+				//refresh the address list
+				displayAddressList(name, phone);
+			}
+
+			saveRecord(name, phone);
 		}
 	});
 }
@@ -85,18 +86,19 @@ function setDeleteButtonEvents() {
 			$('#notice').empty().html('deleting...').show();
 			//get the contactid of the current delete btn
 			var id = $(this).attr('contactid');
-			//call the ajax deleete function
-			$.ajax({
-				url: 'addressbook.php',
-				data: 'action=delete&id=' + id,
-				dataType: 'json',
-				type: 'post',
-				success: function (j) {
-					$('#notice').empty().html(j.msg);
-					//refresh the address list
-					displayAddressList(j.contacts);
-				}
-			});
+
+			//************************** DELETE FUNCTION ******************************************/
+			//************************** DELETE FUNCTION ******************************************/
+
+			// iterator contact id
+
+
+
+
+
+
+
+
 		});
 	});
 }
@@ -126,6 +128,12 @@ $(document).ready(function () {
 	//set the save button event
 	setSaveButtonEvent();
 	//load the address list now
+
+
+	//************************** ADD FUNCTION ******************************************/
+	//************************** ADD FUNCTION ******************************************/
+
+
 	//call the ajax save function
 	$.ajax({
 		url: 'addressbook.php',
