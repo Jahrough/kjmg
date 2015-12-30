@@ -1,0 +1,22 @@
+[
+	{
+		'productName': 'item 1',
+		'productPrice': '$99.00'
+	},
+	{
+		'productName': 'item 2',
+		'productPrice': '$199.00'
+	},
+	{
+		'productName': 'item 3',
+		'productPrice': '$299.00'
+	},
+	{
+		'productName': 'item 4',
+		'productPrice': '$399.00'
+	},
+	{
+		'productName': 'item 5',
+		'productPrice': '$499.00'
+	}
+]
