@@ -2,21 +2,12 @@ var app = (function () {
 
 
 	return {
-		register: function (id, creator) {
-
+		register: function (id) {
+			
 		},
-		start: function (id) {
-
-		},
-		stop: function (id) {
-
-		},
-		startAll: function () {
-
-		},
-		stopAll: function () {
-
-		}
+		publish: function(){
+			
+		};
 	};
 
 }());

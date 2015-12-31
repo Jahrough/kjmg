@@ -2,8 +2,8 @@ var core = (function () {
 	var moduleData = {};
 
 	return {
-		register: function (id, creator) {
-
+		register: function (id) {
+			
 		},
 		start: function (id) {
 
