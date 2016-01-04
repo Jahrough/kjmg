@@ -114,9 +114,7 @@ var updateFunction = function (e) {
 		}
 	}
 
-	console.log(contacts);
 	localStorage.setItem('contacts', JSON.stringify(contacts));
-
 	displayFromLocalStorage();
 
 
