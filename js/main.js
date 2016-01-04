@@ -11,25 +11,6 @@ function isDuplicate(names, phone) {
 	}
 	return isduplicate;
 }
-//reload the address list using ajax
-var saveId = 0;
-
-function displayAddressList(name, phone) {
-	//debugger;
-	//empty the contacts lists
-	var list = $('#contacts-lists');
-	//save a client copy of the items array for validation whenever its refreshed from server
-	//loop thru all the items and add to the list
-	var lh = "";
-	lh += "<li>" + name;
-	lh += " [ " + phone + " ] ";
-	lh += '<a href="#delete-id" class="deletebtn" contactid="' + saveId++ + '"> delete contact </a>'
-	lh += "</li>";
-	list.html(lh);
-	//set the delete button event after every reload
-	setDeleteButtonEvents()
-}
-
 
 
 
@@ -38,15 +19,16 @@ function displayFromLocalStorage() {
 	var contacts = JSON.parse(localStorage.getItem('contacts')) || [];
 	var html = '';
 	var $list = $('#contacts-lists');
-
-	for (var i = 0; i < contacts.length; i++) {
-		html += '<li>' + contacts[i].name + ' ' + contacts[i].phone + '</li>';
+	if (contacts.length > 0) {
+		for (var i = 0; i < contacts.length; i++) {
+			html += '<li>' + contacts[i].name + ' ' + contacts[i].phone +
+				'<a href="#" class="delete" data-id="' + contacts[i].id + '">delete</a>' +
+				'<a href="#" class="update" data-id="' + contacts[i].id + '">Update</a></li>';
+		}
 	}
-
 	$list.empty().html(html);
 
 }
-
 
 //function to set the save contact button event
 function setSaveButtonEvent() {
@@ -68,12 +50,12 @@ function setSaveButtonEvent() {
 		} else if (name.match(/\d/)) {
 			$('#notice').empty().html('the name field must not contain numeric input').show('slow');
 		} else {
-
 			//************************** ADD FUNCTION ******************************************/
 			//************************** ADD FUNCTION ******************************************/
 
 			//call the ajax save function
 			$('#notice').empty().html('saving....').show();
+
 
 			function saveRecord(name, phone) {
 				//empty the input fields
@@ -84,6 +66,7 @@ function setSaveButtonEvent() {
 				var contacts = JSON.parse(localStorage.getItem('contacts')) || [];
 
 				contacts.push({
+					id: contacts.length + 1,
 					name: name,
 					phone: phone
 				});
@@ -98,40 +81,54 @@ function setSaveButtonEvent() {
 		}
 	});
 }
-//function to set all delete button events
-function setDeleteButtonEvents() {
-	$('.deletebtn').each(function (i) {
-		//set the delete event on each delete button
-		$(this).click(function () {
-			//confirm
-			var answer = confirm("are you sure you want to delete ?");
-			if (!answer) {
-				return;
-			}
-			//hide the form if its there
-			$('#add-contact-form').hide();
-			//set the delete notice
-			$('#notice').empty().html('deleting...').show();
-			//get the contactid of the current delete btn
-			var id = $(this).attr('contactid');
-
-			//************************** DELETE FUNCTION ******************************************/
-			//************************** DELETE FUNCTION ******************************************/
-
-			// iterator contact id
 
 
 
+var deleteFunction = function (e) {
+	e.preventDefault();
+	var i, contacts = JSON.parse(localStorage.getItem('contacts'));
+
+	for (i = 0; contacts.length; ++i) {
+		if (contacts[i].id === $(e.currentTarget).data('id')) {
+			contacts.splice(i, 1);
+			break;
+		}
+	}
+
+	console.log(contacts);
+	localStorage.setItem('contacts', JSON.stringify(contacts));
+
+	displayFromLocalStorage();
 
 
+};
+
+var updateFunction = function (e) {
+	e.preventDefault();
+	var i, contacts = JSON.parse(localStorage.getItem('contacts'));
+
+	for (i = 0; contacts.length; ++i) {
+		if (contacts[i].id === $(e.currentTarget).data('id')) {
+			contacts.splice(i, 1);
+			break;
+		}
+	}
+
+	console.log(contacts);
+	localStorage.setItem('contacts', JSON.stringify(contacts));
+
+	displayFromLocalStorage();
 
 
+};
 
-		});
-	});
-}
+
 //initilize the javascript when the page is fully loaded
 $(document).ready(function () {
+
+	$('#contacts-lists').on('click', '.delete', deleteFunction);
+	$('#contacts-lists').on('click', '.update', updateFunction);
+
 	//hide the add contact form 	
 	$('#add-contact-form').hide();
 	//hide the notice 
@@ -151,8 +148,7 @@ $(document).ready(function () {
 		$('#names').val('');
 		$('#phone').val('');
 	});
-	//set all the delete button events
-	setDeleteButtonEvents();
+
 	//set the save button event
 	setSaveButtonEvent();
 	//load the address list now
