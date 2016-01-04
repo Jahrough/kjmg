@@ -29,6 +29,25 @@ function displayAddressList(name, phone) {
 	//set the delete button event after every reload
 	setDeleteButtonEvents()
 }
+
+
+
+
+function displayFromLocalStorage() {
+	// get from localstorage
+	var contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+	var html = '';
+	var $list = $('#contacts-lists');
+
+	for (var i = 0; i < contacts.length; i++) {
+		html += '<li>' + contacts[i].name + ' ' + contacts[i].phone + '</li>';
+	}
+
+	$list.empty().html(html);
+
+}
+
+
 //function to set the save contact button event
 function setSaveButtonEvent() {
 
@@ -60,10 +79,19 @@ function setSaveButtonEvent() {
 				//empty the input fields
 				$('#names').val('');
 				$('#phone').val('');
-				localStorage.setItem(saveId, name);
+
+
+				var contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+
+				contacts.push({
+					name: name,
+					phone: phone
+				});
+
+				localStorage.setItem('contacts', JSON.stringify(contacts));
 
 				//refresh the address list
-				displayAddressList(name, phone);
+				displayFromLocalStorage();
 			}
 
 			saveRecord(name, phone);
@@ -129,20 +157,5 @@ $(document).ready(function () {
 	setSaveButtonEvent();
 	//load the address list now
 
-
-	//************************** ADD FUNCTION ******************************************/
-	//************************** ADD FUNCTION ******************************************/
-
-
-	//call the ajax save function
-	$.ajax({
-		url: 'addressbook.php',
-		data: '',
-		dataType: 'json',
-		type: 'post',
-		success: function (j) {
-			//refresh the address list
-			displayAddressList(j.contacts);
-		},
-	});
+	displayFromLocalStorage();
 });
