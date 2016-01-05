@@ -97,7 +97,6 @@ var deleteFunction = function (e) {
 		}
 	}
 
-
 	localStorage.setItem('contacts', JSON.stringify(contacts));
 
 	displayFromLocalStorage();
