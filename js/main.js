@@ -21,7 +21,9 @@ function displayFromLocalStorage() {
 	var $list = $('#contacts-lists');
 	if (contacts.length > 0) {
 		for (var i = 0; i < contacts.length; i++) {
-			html += '<li>' + contacts[i].name + ' ' + contacts[i].phone +
+			html += '<li>' +
+				'<input type="text" value=' + contacts[i].name + ' readonly/>' +
+				'<input type="phone" value=' + contacts[i].phone + ' readonly/>' +
 				'<a href="#" class="delete" data-id="' + contacts[i].id + '">delete</a>' +
 				'<a href="#" class="update" data-id="' + contacts[i].id + '">Update</a></li>';
 		}
@@ -51,7 +53,7 @@ function setSaveButtonEvent() {
 			$('#notice').empty().html('the name field must not contain numeric input').show('slow');
 		} else {
 			//************************** ADD FUNCTION ******************************************/
-			//************************** ADD FUNCTION ******************************************/
+			//************************** ADD FUNCTION ******************** v**********************/
 
 			//call the ajax save function
 			$('#notice').empty().html('saving....').show();
@@ -95,7 +97,7 @@ var deleteFunction = function (e) {
 		}
 	}
 
-	console.log(contacts);
+
 	localStorage.setItem('contacts', JSON.stringify(contacts));
 
 	displayFromLocalStorage();
@@ -105,18 +107,27 @@ var deleteFunction = function (e) {
 
 var updateFunction = function (e) {
 	e.preventDefault();
-	var i, contacts = JSON.parse(localStorage.getItem('contacts'));
+	var $currentTarget = $(e.currentTarget),
+		$nameField = $currentTarget.siblings('input[type="text"]'),
+		$phoneField = $currentTarget.siblings('input[type="phone"]'),
+		i, contacts = JSON.parse(localStorage.getItem('contacts'));
 
-	for (i = 0; contacts.length; ++i) {
-		if (contacts[i].id === $(e.currentTarget).data('id')) {
-			contacts.splice(i, 1);
-			break;
+	if ($currentTarget.text() === 'Update') {
+		$currentTarget.text('save');
+		$nameField.removeAttr('readonly');
+		$phoneField.removeAttr('readonly');
+	} else {
+		for (i = 0; contacts.length; ++i) {
+			if (contacts[i].id === $(e.currentTarget).data('id')) {
+				contacts[i].name = $nameField.val();
+				contacts[i].phone = $phoneField.val();
+				break;
+			}
 		}
+
+		localStorage.setItem('contacts', JSON.stringify(contacts));
+		displayFromLocalStorage();
 	}
-
-	localStorage.setItem('contacts', JSON.stringify(contacts));
-	displayFromLocalStorage();
-
 
 };
 
