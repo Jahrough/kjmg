@@ -130,9 +130,20 @@ var updateFunction = function (e) {
 
 };
 
+var loadContentArea = function(e){
+	
+	var path = e? e.currentTarget.hash.slice(1) : 'main';
+	path = '../'+path+'.html';
+	$('#contentArea').load(path);
+		
+};
 
 //initilize the javascript when the page is fully loaded
 $(document).ready(function () {
+
+	loadContentArea();
+
+	$('a').on('click',loadContentArea);	
 
 	$('#contacts-lists').on('click', '.delete', deleteFunction);
 	$('#contacts-lists').on('click', '.update', updateFunction);
