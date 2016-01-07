@@ -1,35 +1,35 @@
-		<div id="simpleContact">
-			<h1>Simple Address Book</h1>
-			<div id="addContact">
-				<a href="#add-contact" id="add-contact-btn">Add Contact</a>
-				<table id="add-contact-form">
-					<tr>
-						<td>Names:</td>
-						<td>
-							<input type="text" name="names" id="names" />
-						</td>
-					</tr>
-					<tr>
-						<td>Phone Number:</td>
-						<td>
-							<input type="text" name="phone" id="phone" />
-						</td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-						<td>
-							<a href="#save-contact" id="save-contact-btn">Save Contact</a>
-							<a href="#cancel" id="cancel-btn">Cancel</a>
-						</td>
-					</tr>
-				</table>
-			</div>
-			<div id="notice">
-				notice box
-			</div>
-			<div id="list-title">My Contact List</div>
+<div id="simpleContact" class="container">
+	<h1>Simple Address Book</h1>
 
-			<ul id="contacts-lists">
-
-			</ul>
+	<form id="add-contact-form">
+		<div class="form-group">
+			<label for="names">names</label>
+			<input type="text" class="form-control" id="names" placeholder="names">
 		</div>
+
+		<div class="form-group">
+			<label for="phone">phone</label>
+			<input type="text" class="form-control" id="phone" placeholder="phone">
+		</div>
+
+
+		<a href="#save-contact" id="save-contact-btn" class="btn btn-default">Save Contact</a>
+	</form>
+
+
+
+	<div id="notice">
+		notice box
+	</div>
+
+
+
+
+
+
+	<div id="list-title">My Contact List</div>
+
+	<ul id="contacts-lists" class="list-group">
+
+	</ul>
+</div>

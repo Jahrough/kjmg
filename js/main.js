@@ -21,11 +21,11 @@ function displayFromLocalStorage() {
 	var $list = $('#contacts-lists');
 	if (contacts.length > 0) {
 		for (var i = 0; i < contacts.length; i++) {
-			html += '<li>' +
-				'<input type="text" value=' + contacts[i].name + ' readonly/>' +
-				'<input type="phone" value=' + contacts[i].phone + ' readonly/>' +
-				'<a href="#" class="delete" data-id="' + contacts[i].id + '">delete</a>' +
-				'<a href="#" class="update" data-id="' + contacts[i].id + '">Update</a></li>';
+			html += '<li class="list-group-item">' +
+				'<input type="text" value=' + contacts[i].name + ' readonly="readonly"/>' +
+				'<input type="phone" value=' + contacts[i].phone + ' readonly="readonly"/>' +
+				'<a href="#" class="delete btn btn-default" data-id="' + contacts[i].id + '">delete</a> ' +
+				'<a href="#" class="update btn btn-default" data-id="' + contacts[i].id + '">Update</a></li>';
 		}
 	}
 	$list.empty().html(html);
@@ -140,8 +140,6 @@ var loadContentArea = function (e) {
 		$('#contacts-lists').on('click', '.delete', deleteFunction);
 		$('#contacts-lists').on('click', '.update', updateFunction);
 
-		//hide the add contact form 	
-		$('#add-contact-form').hide();
 		//hide the notice 
 		$('#notice').hide();
 		//set the add contact form button event
