@@ -134,7 +134,39 @@ var loadContentArea = function (e) {
 	var path = e ? e.currentTarget.hash.slice(1) : window.location.hash.slice(1);
 	path = path || 'main';
 	path = '../' + path + '.html';
-	$('#contentArea').load(path);
+	
+	$('#contentArea').load(path,function(){
+
+		$('#contacts-lists').on('click', '.delete', deleteFunction);
+		$('#contacts-lists').on('click', '.update', updateFunction);
+
+		//hide the add contact form 	
+		$('#add-contact-form').hide();
+		//hide the notice 
+		$('#notice').hide();
+		//set the add contact form button event
+		$('#add-contact-btn').click(function () {
+			//hide the notice if its still there
+			$('#notice').hide();
+			//show the add contact form slowly when button is clicked
+			$('#add-contact-form').show('slow');
+		});
+		//set the cancel button event
+		$('#cancel-btn').click(function () {
+			$('#add-contact-form').hide('slow');
+			$('#notice').hide();
+			//empty the input fields
+			$('#names').val('');
+			$('#phone').val('');
+		});
+
+		//set the save button event
+		setSaveButtonEvent();
+		//load the address list now
+
+		displayFromLocalStorage();
+
+	});
 
 };
 
@@ -145,32 +177,5 @@ $(document).ready(function () {
 
 	$(document).on('click', '.link', loadContentArea);
 
-	$('#contacts-lists').on('click', '.delete', deleteFunction);
-	$('#contacts-lists').on('click', '.update', updateFunction);
-
-	//hide the add contact form 	
-	$('#add-contact-form').hide();
-	//hide the notice 
-	$('#notice').hide();
-	//set the add contact form button event
-	$('#add-contact-btn').click(function () {
-		//hide the notice if its still there
-		$('#notice').hide();
-		//show the add contact form slowly when button is clicked
-		$('#add-contact-form').show('slow');
-	});
-	//set the cancel button event
-	$('#cancel-btn').click(function () {
-		$('#add-contact-form').hide('slow');
-		$('#notice').hide();
-		//empty the input fields
-		$('#names').val('');
-		$('#phone').val('');
-	});
-
-	//set the save button event
-	setSaveButtonEvent();
-	//load the address list now
-
-	displayFromLocalStorage();
+	
 });
