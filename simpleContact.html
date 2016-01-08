@@ -1,35 +1,34 @@
-<div id="simpleContact" class="container">
-	<h1>Simple Address Book</h1>
+<div id="simpleContact">
+	<h2>Simple Address Book</h2>
 
-	<form id="add-contact-form">
-		<div class="form-group">
-			<label for="names">names</label>
-			<input type="text" class="form-control" id="names" placeholder="names">
+	<div class="col-md-5">
+
+		<div id="notice" class="bs-example-bg-classes">
+			<p class="bg-danger">notice box</p>
 		</div>
 
-		<div class="form-group">
-			<label for="phone">phone</label>
-			<input type="text" class="form-control" id="phone" placeholder="phone">
-		</div>
+		<form id="add-contact-form">
+			<div class="form-group">
+				<label for="names">names</label>
+				<input type="text" class="form-control" id="names" placeholder="names">
+			</div>
 
+			<div class="form-group">
+				<label for="phone">phone</label>
+				<input type="text" class="form-control" id="phone" placeholder="phone">
+			</div>
 
-		<a href="#save-contact" id="save-contact-btn" class="btn btn-default">Save Contact</a>
-	</form>
+			<button type="submit" id="save-contact-btn" class="btn btn-default">Save Contact</button>
 
+		</form>
 
-
-	<div id="notice">
-		notice box
 	</div>
 
+	<div class="col-md-7">
 
+		<ul id="contacts-lists" class="list-group">
 
+		</ul>
+	</div>
 
-
-
-	<div id="list-title">My Contact List</div>
-
-	<ul id="contacts-lists" class="list-group">
-
-	</ul>
 </div>

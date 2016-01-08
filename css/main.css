@@ -1,3 +1,5 @@
-input[readonly=readonly] {
+input[readonly="readonly"] {
 	border:0 none;
 }
+
+.update { margin-right: 10px; }

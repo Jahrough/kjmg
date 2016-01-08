@@ -19,13 +19,16 @@ function displayFromLocalStorage() {
 	var contacts = JSON.parse(localStorage.getItem('contacts')) || [];
 	var html = '';
 	var $list = $('#contacts-lists');
+
+	contacts.reverse();
 	if (contacts.length > 0) {
 		for (var i = 0; i < contacts.length; i++) {
 			html += '<li class="list-group-item">' +
 				'<input type="text" value=' + contacts[i].name + ' readonly="readonly"/>' +
 				'<input type="phone" value=' + contacts[i].phone + ' readonly="readonly"/>' +
-				'<a href="#" class="delete btn btn-default" data-id="' + contacts[i].id + '">delete</a> ' +
-				'<a href="#" class="update btn btn-default" data-id="' + contacts[i].id + '">Update</a></li>';
+				'<a href="#" class="update btn btn-default" data-id="' + contacts[i].id + '">Update</a>'+
+				'<a href="#" class="delete btn btn-default" data-id="' + contacts[i].id + '">delete</a>' +
+				'</li>';
 		}
 	}
 	$list.empty().html(html);
@@ -35,7 +38,8 @@ function displayFromLocalStorage() {
 //function to set the save contact button event
 function setSaveButtonEvent() {
 
-	$('#save-contact-btn').click(function () {
+	$('#save-contact-btn').click(function (e) {
+		e.preventDefault();
 		//hide notice
 		$('#notice').hide();
 		//get the name and phone data
@@ -52,12 +56,6 @@ function setSaveButtonEvent() {
 		} else if (name.match(/\d/)) {
 			$('#notice').empty().html('the name field must not contain numeric input').show('slow');
 		} else {
-			//************************** ADD FUNCTION ******************************************/
-			//************************** ADD FUNCTION ******************** v**********************/
-
-			//call the ajax save function
-			$('#notice').empty().html('saving....').show();
-
 
 			function saveRecord(name, phone) {
 				//empty the input fields
@@ -142,21 +140,6 @@ var loadContentArea = function (e) {
 
 		//hide the notice 
 		$('#notice').hide();
-		//set the add contact form button event
-		$('#add-contact-btn').click(function () {
-			//hide the notice if its still there
-			$('#notice').hide();
-			//show the add contact form slowly when button is clicked
-			$('#add-contact-form').show('slow');
-		});
-		//set the cancel button event
-		$('#cancel-btn').click(function () {
-			$('#add-contact-form').hide('slow');
-			$('#notice').hide();
-			//empty the input fields
-			$('#names').val('');
-			$('#phone').val('');
-		});
 
 		//set the save button event
 		setSaveButtonEvent();

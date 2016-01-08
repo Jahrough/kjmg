@@ -1,44 +1,42 @@
-<div id="complexContact" class="container">
-	<h1>Complex Address Book</h1>
+<div id="complexContact">
+	<h2>Complex Address Book</h2>
 
-
-
-
-	<form id="add-contact-form">
-		<div class="form-group">
-			<label for="names">names</label>
-			<input type="text" class="form-control" id="names" placeholder="names">
-		</div>
-		<div class="form-group">
-			<label for="phone">phone</label>
-			<input type="text" class="form-control" id="phone" placeholder="phone">
+	<div class="col-md-5">
+		<div id="notice">
+			<p class="bg-danger">notice box</p>
 		</div>
 
-		<div class="form-group">
-			<label for="male"><input type="radio" name="gender" id="male" value="male"> male</label>
+		<form id="add-contact-form">
+			<div class="form-group">
+				<label for="names">names</label>
+				<input type="text" class="form-control" id="names" placeholder="names">
+			</div>
 
-			<label for="female"><input type="radio" name="gender" id="female" value="female"> female</label>
+			<div class="form-group">
+				<label for="phone">phone</label>
+				<input type="text" class="form-control" id="phone" placeholder="phone">
+			</div>
 
-		</div>
+			<div class="form-group">
+				<label for="male">
+					<input type="radio" name="gender" id="male" value="male"> male</label>
 
+				<label for="female">
+					<input type="radio" name="gender" id="female" value="female"> female</label>
 
-		<a href="#save-contact" id="save-contact-btn" class="btn btn-default">Save Contact</a>
-	</form>
+			</div>
 
+			<button type="submit" id="save-contact-btn" class="btn btn-default">Save Contact</button>
 
+		</form>
 
-	<div id="notice">
-		notice box
 	</div>
 
+	<div class="col-md-7">
 
+		<ul id="contacts-lists" class="list-group">
 
+		</ul>
+	</div>
 
-
-
-	<div id="list-title">My Contact List</div>
-
-	<ul id="contacts-lists" class="list-group">
-
-	</ul>
 </div>
