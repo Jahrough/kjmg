@@ -1,0 +1,26 @@
+{
+  "name": "kjm",
+  "version": "1.0.0",
+  "description": "Test",
+  "main": "server.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://jahlopez81@gmail.com:Jah051281@github.com/Jahrough/kjmg.git"
+  },
+	"dependencies":{
+		"mongodb": "*"
+	},
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jahrough/kjmg/issues"
+  },
+  "homepage": "https://github.com/Jahrough/kjmg#readme"
+}
