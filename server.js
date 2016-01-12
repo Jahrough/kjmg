@@ -2,25 +2,31 @@
 var MongoClient = require('mongodb').MongoClient;
 
 // Connect to the db
-MongoClient.connect("mongodb://ds039185.mongolab.com:39185/kjmg", function (err, db) {
-	var http = require('http');
-	const PORT = 3000;
-
-	//Create a server
-	var server = http.createServer(function (request, response) {
-		response.end('It Works!! Path Hit: ' + request.url);
-	});
-
-
-
+MongoClient.connect("mongodb://" + process.env.IP + ":27017/kjmg", function(err, db) {
 	if (!err) {
+
+		var http = require('http');
+		const PORT = process.env.PORT;
+
+var express = require("express");
+var app     = express();
+var path    = require("path");
+
+
+app.get('/',function(req,res){
+  res.sendFile(path.join(__dirname+'/index.html'));
+  //__dirname : It will resolve to your project folder.
+});
+	
+
+		app.listen(PORT, function() {
+			console.log('Example app listening on port 3000!');
+		});
+
+
 		console.log("We are connected MongDB");
 
-		//Lets start our server
-		server.listen(PORT, function () {
-			//Callback triggered when server is successfully listening. Hurray!
-			console.log("Server listening on: http://localhost:%s", PORT);
-		});
+
 	}
 
 });
