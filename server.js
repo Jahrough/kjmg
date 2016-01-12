@@ -12,7 +12,7 @@ MongoClient.connect("mongodb://" + process.env.IP + ":27017/kjmg", function(err,
 		app.use(express.static(__dirname + '/'));
 		app.listen(process.env.PORT);
 
-		app.get('/', function(request, response) {
+		app.get('/public/', function(request, response) {
 			//
 		});
 
