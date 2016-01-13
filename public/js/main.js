@@ -84,6 +84,59 @@ function setSaveButtonEvent() {
 
 
 
+
+//function to set the save contact button event
+function setMongoSaveButtonEvent() {
+
+	$('#complex').on('submit', function (e) {
+		e.preventDefault();
+		//hide notice
+		$('#notice').hide();
+		//get the name and phone data
+		var name = $('#names').val();
+		var phone = $('#phone').val();
+		//validate: ensure the name of phone is not empty, the name and phone not in dbase and
+		//the name has only text and number has only numbers
+		if (name == "" || phone == "") {
+			$('#notice').empty().html('the phone number or name field cannot be empty').show('slow');
+		} else if (isDuplicate(name, phone)) {
+			$('#notice').empty().html('the contact info you specified is already in the database').show('slow');
+		} else if (isNaN(new Number(phone))) {
+			$('#notice').empty().html('the phone field must contain valid numeric data').show('slow');
+		} else if (name.match(/\d/)) {
+			$('#notice').empty().html('the name field must not contain numeric input').show('slow');
+		} else {
+
+			function saveRecord(name, phone) {
+				//empty the input fields
+				$('#names').val('');
+				$('#phone').val('');
+				
+				var $form = $(e.currentTarget);
+debugger;
+				$.ajax({
+					method: 'POST',
+					url: $form.prop('action'),
+					data: $form.serialize(),
+					success: function(response){
+						debugger;
+						console.log('success');
+					}
+					
+				});
+				
+
+				//refresh the address list
+				displayFromLocalStorage();
+			}
+
+			saveRecord(name, phone);
+		}
+	});
+}
+
+
+
 var deleteFunction = function (e) {
 	e.preventDefault();
 	var i, contacts = JSON.parse(localStorage.getItem('contacts'));
@@ -142,8 +195,9 @@ var loadContentArea = function (e) {
 		$('#notice').hide();
 
 		//set the save button event
-		setSaveButtonEvent();
+		//setSaveButtonEvent();
 		//load the address list now
+		setMongoSaveButtonEvent();
 
 		displayFromLocalStorage();
 
