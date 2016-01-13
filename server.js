@@ -4,6 +4,9 @@ var MongoClient = require('mongodb').MongoClient,
 	bodyParser = require('body-parser'),
 	app = express();
 
+app.use(bodyParser.urlencoded({
+	extended: true
+}));
 
 MongoClient.connect('mongodb://' + process.env.IP + ':27017/kjmg', function(err, db) {
 
@@ -17,18 +20,14 @@ MongoClient.connect('mongodb://' + process.env.IP + ':27017/kjmg', function(err,
 			
 		});*/
 
-		db.open(function(err, db) {
-
-			if (!err) {
-				db.createCollection('complexContact');
-				db.collection('complexContact').insert({
-					'name': 'bob dole'
-				});
-			}
-		});
 
 		app.post('/complex', function(req, res) {
-			console.log(req.body);
+			db.open(function(err, db) {
+
+				if (!err) {
+					db.collection('complexContact').insert(req.body);
+				}
+			});
 
 
 			/*db.collections('complexContact').find({}).toArray(function(err, data){

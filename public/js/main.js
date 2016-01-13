@@ -43,7 +43,7 @@ function setSaveButtonEvent() {
 		//hide notice
 		$('#notice').hide();
 		//get the name and phone data
-		var name = $('#names').val();
+		var name = $('#name').val();
 		var phone = $('#phone').val();
 		//validate: ensure the name of phone is not empty, the name and phone not in dbase and
 		//the name has only text and number has only numbers
@@ -59,7 +59,7 @@ function setSaveButtonEvent() {
 
 			function saveRecord(name, phone) {
 				//empty the input fields
-				$('#names').val('');
+				$('#name').val('');
 				$('#phone').val('');
 
 
@@ -93,7 +93,7 @@ function setMongoSaveButtonEvent() {
 		//hide notice
 		$('#notice').hide();
 		//get the name and phone data
-		var name = $('#names').val();
+		var name = $('#name').val();
 		var phone = $('#phone').val();
 		//validate: ensure the name of phone is not empty, the name and phone not in dbase and
 		//the name has only text and number has only numbers
@@ -109,8 +109,7 @@ function setMongoSaveButtonEvent() {
 
 			function saveRecord(name, phone) {
 				//empty the input fields
-				$('#names').val('');
-				$('#phone').val('');
+				
 				
 				var $form = $(e.currentTarget);
 debugger;
@@ -121,6 +120,12 @@ debugger;
 					success: function(response){
 						debugger;
 						console.log('success');
+						$('#name').val('');
+						$('#phone').val('');
+					},
+					error: function(err){
+						debugger;
+						console.log("this is an error block"+err);
 					}
 					
 				});
