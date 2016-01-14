@@ -112,19 +112,16 @@ function setMongoSaveButtonEvent() {
 				
 				
 				var $form = $(e.currentTarget);
-debugger;
 				$.ajax({
 					method: 'POST',
 					url: $form.prop('action'),
 					data: $form.serialize(),
 					success: function(response){
-						debugger;
 						console.log('success');
 						$('#name').val('');
 						$('#phone').val('');
 					},
 					error: function(err){
-						debugger;
 						console.log("this is an error block"+err);
 					}
 					
