@@ -35,6 +35,28 @@ function displayFromLocalStorage() {
 
 }
 
+function displayFromDb(res){
+	// get from localstorage
+	var contacts = res;
+	var html = '';
+	var $list = $('#contacts-lists');
+
+	contacts.reverse();
+	if (contacts.length > 0) {
+		for (var i = 0; i < contacts.length; i++) {
+			html += '<li class="list-group-item">' +
+				'<input type="text" value=' + contacts[i].name + ' readonly="readonly"/>' +
+				'<input type="phone" value=' + contacts[i].phone + ' readonly="readonly"/>' +
+				 contacts[i].gender +
+				'<a href="#" class="update btn btn-default" data-id="' + contacts[i]._id + '">Update</a>'+
+				'<a href="#" class="delete btn btn-default" data-id="' + contacts[i]._id + '">delete</a>' +
+				'</li>';
+		}
+	}
+	$list.empty().html(html);
+
+}
+
 //function to set the save contact button event
 function setSaveButtonEvent() {
 
@@ -117,7 +139,8 @@ function setMongoSaveButtonEvent() {
 					url: $form.prop('action'),
 					data: $form.serialize(),
 					success: function(response){
-						console.log('success');
+						displayFromDb(response);
+					
 						$('#name').val('');
 						$('#phone').val('');
 					},
