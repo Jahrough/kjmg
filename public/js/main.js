@@ -26,7 +26,7 @@ function displayFromLocalStorage() {
 			html += '<li class="list-group-item">' +
 				'<input type="text" value=' + contacts[i].name + ' readonly="readonly"/>' +
 				'<input type="phone" value=' + contacts[i].phone + ' readonly="readonly"/>' +
-				'<a href="#" class="update btn btn-default" data-id="' + contacts[i].id + '">Update</a>'+
+				'<a href="#" class="update btn btn-default" data-id="' + contacts[i].id + '">Update</a>' +
 				'<a href="#" class="delete btn btn-default" data-id="' + contacts[i].id + '">delete</a>' +
 				'</li>';
 		}
@@ -35,21 +35,21 @@ function displayFromLocalStorage() {
 
 }
 
-function displayFromDb(res){
+function displayFromDb(res) {
 	// get from localstorage
 	var contacts = res;
 	var html = '';
-	var $list = $('#contacts-lists');
+	var $list = $('#complexContact-lists');
 
 	contacts.reverse();
 	if (contacts.length > 0) {
 		for (var i = 0; i < contacts.length; i++) {
-			html += '<li class="list-group-item">' +
+			html += '<li class="list-group-item" data-id="' + contacts[i]._id + '">' +
 				'<input type="text" value=' + contacts[i].name + ' readonly="readonly"/>' +
 				'<input type="phone" value=' + contacts[i].phone + ' readonly="readonly"/>' +
-				 contacts[i].gender +
-				'<a href="#" class="update btn btn-default" data-id="' + contacts[i]._id + '">Update</a>'+
-				'<a href="#" class="delete btn btn-default" data-id="' + contacts[i]._id + '">delete</a>' +
+				contacts[i].gender +
+				'<a href="#" class="update btn btn-default">Update</a>' +
+				'<a href="#" class="delete btn btn-default">delete</a>' +
 				'</li>';
 		}
 	}
@@ -60,7 +60,7 @@ function displayFromDb(res){
 //function to set the save contact button event
 function setSaveButtonEvent() {
 
-	$('#save-contact-btn').click(function (e) {
+	$('#save-contact-btn').click(function(e) {
 		e.preventDefault();
 		//hide notice
 		$('#notice').hide();
@@ -71,13 +71,17 @@ function setSaveButtonEvent() {
 		//the name has only text and number has only numbers
 		if (name == "" || phone == "") {
 			$('#notice').empty().html('the phone number or name field cannot be empty').show('slow');
-		} else if (isDuplicate(name, phone)) {
+		}
+		else if (isDuplicate(name, phone)) {
 			$('#notice').empty().html('the contact info you specified is already in the database').show('slow');
-		} else if (isNaN(new Number(phone))) {
+		}
+		else if (isNaN(new Number(phone))) {
 			$('#notice').empty().html('the phone field must contain valid numeric data').show('slow');
-		} else if (name.match(/\d/)) {
+		}
+		else if (name.match(/\d/)) {
 			$('#notice').empty().html('the name field must not contain numeric input').show('slow');
-		} else {
+		}
+		else {
 
 			function saveRecord(name, phone) {
 				//empty the input fields
@@ -110,7 +114,7 @@ function setSaveButtonEvent() {
 //function to set the save contact button event
 function setMongoSaveButtonEvent() {
 
-	$('#complex').on('submit', function (e) {
+	$('#complex').on('submit', function(e) {
 		e.preventDefault();
 		//hide notice
 		$('#notice').hide();
@@ -121,35 +125,39 @@ function setMongoSaveButtonEvent() {
 		//the name has only text and number has only numbers
 		if (name == "" || phone == "") {
 			$('#notice').empty().html('the phone number or name field cannot be empty').show('slow');
-		} else if (isDuplicate(name, phone)) {
+		}
+		else if (isDuplicate(name, phone)) {
 			$('#notice').empty().html('the contact info you specified is already in the database').show('slow');
-		} else if (isNaN(new Number(phone))) {
+		}
+		else if (isNaN(new Number(phone))) {
 			$('#notice').empty().html('the phone field must contain valid numeric data').show('slow');
-		} else if (name.match(/\d/)) {
+		}
+		else if (name.match(/\d/)) {
 			$('#notice').empty().html('the name field must not contain numeric input').show('slow');
-		} else {
+		}
+		else {
 
 			function saveRecord(name, phone) {
 				//empty the input fields
-				
-				
+
+
 				var $form = $(e.currentTarget);
 				$.ajax({
 					method: 'POST',
 					url: $form.prop('action'),
 					data: $form.serialize(),
-					success: function(response){
+					success: function(response) {
 						displayFromDb(response);
-					
+
 						$('#name').val('');
 						$('#phone').val('');
 					},
-					error: function(err){
-						console.log("this is an error block"+err);
+					error: function(err) {
+						console.log("this is an error block" + err);
 					}
-					
+
 				});
-				
+
 
 				//refresh the address list
 				displayFromLocalStorage();
@@ -162,7 +170,7 @@ function setMongoSaveButtonEvent() {
 
 
 
-var deleteFunction = function (e) {
+var deleteFunction = function(e) {
 	e.preventDefault();
 	var i, contacts = JSON.parse(localStorage.getItem('contacts'));
 
@@ -180,7 +188,7 @@ var deleteFunction = function (e) {
 
 };
 
-var updateFunction = function (e) {
+var updateFunction = function(e) {
 	e.preventDefault();
 	var $currentTarget = $(e.currentTarget),
 		$nameField = $currentTarget.siblings('input[type="text"]'),
@@ -191,7 +199,8 @@ var updateFunction = function (e) {
 		$currentTarget.text('save');
 		$nameField.removeAttr('readonly');
 		$phoneField.removeAttr('readonly');
-	} else {
+	}
+	else {
 		for (i = 0; contacts.length; ++i) {
 			if (contacts[i].id === $(e.currentTarget).data('id')) {
 				contacts[i].name = $nameField.val();
@@ -206,12 +215,80 @@ var updateFunction = function (e) {
 
 };
 
-var loadContentArea = function (e) {
+
+var mongoDeleteFunction = function(e) {
+	e.preventDefault();
+
+	var $dataId = $(e.currentTarget).closest('li').data('id');
+
+	$.ajax({
+		method: 'POST',
+		url: '/delete',
+		data: {
+			'id': $dataId
+		},
+		success: function(response) {
+			displayFromDb(response);
+
+		},
+		error: function(err) {
+			console.log("this is an error block" + err);
+		}
+
+	});
+
+
+};
+
+var mongoUpdateFunction = function(e) {
+	e.preventDefault();
+
+
+	var $currentTarget = $(e.currentTarget),
+		$nameField = $currentTarget.siblings('input[type="text"]'),
+		$phoneField = $currentTarget.siblings('input[type="phone"]'),
+		$genderField = $currentTarget.siblings('input[type="radio"]');
+
+	if ($currentTarget.text() === 'Update') {
+		$currentTarget.text('save');
+		$nameField.removeAttr('readonly');
+		$phoneField.removeAttr('readonly');
+	}
+	else {
+		e.preventDefault();
+		var $dataId = $(e.currentTarget).closest('li').data('id');
+
+		$.ajax({
+			method: 'POST',
+			url: '/update',
+			data: {
+				'id': $dataId,
+				'name':$nameField.val(),
+				'phone': $phoneField.val(),
+				'gender': $genderField.val()
+			},
+			success: function(response) {
+				displayFromDb(response);
+
+			},
+			error: function(err) {
+				console.log("this is an error block" + err);
+			}
+
+		});
+	}
+
+};
+
+var loadContentArea = function(e) {
 	var path = e ? e.currentTarget.hash.slice(1) : window.location.hash.slice(1);
 	path = path || 'main';
 	path = '../' + path + '.html';
-	
-	$('#contentArea').load(path,function(){
+
+	$('#contentArea').load(path, function() {
+
+		$('#complexContact-lists').on('click', '.delete', mongoDeleteFunction);
+		$('#complexContact-lists').on('click', '.update', mongoUpdateFunction);
 
 		$('#contacts-lists').on('click', '.delete', deleteFunction);
 		$('#contacts-lists').on('click', '.update', updateFunction);
@@ -231,11 +308,11 @@ var loadContentArea = function (e) {
 };
 
 //initilize the javascript when the page is fully loaded
-$(document).ready(function () {
+$(document).ready(function() {
 
 	loadContentArea();
 
 	$(document).on('click', '.link', loadContentArea);
 
-	
+
 });

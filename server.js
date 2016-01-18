@@ -1,4 +1,5 @@
-var MongoClient = require('mongodb').MongoClient,
+var mongoDB = require("mongodb"),
+	MongoClient = mongoDB.MongoClient,
 	path = require("path"),
 	express = require("express"),
 	bodyParser = require('body-parser'),
@@ -33,6 +34,46 @@ MongoClient.connect('mongodb://' + process.env.IP + ':27017/kjmg', function(err,
 
 		});
 
+		app.post('/delete', function(req, res) {
+		
+			db.open(function(err, db) {
+				
+				if (!err) {
+
+					db.collection('complexContact').remove({_id: new mongoDB.ObjectID(req.body.id)}, function(err, data) {
+						console.log("error" +err);
+						console.log("Data" +data);
+						db.collection('complexContact').find().toArray(function(err, data) {
+							if (!err) {
+								res.send(data);
+							}
+						});
+
+					});
+
+				}
+			});
+		
+
+
+
+
+		});
+
+		app.post('/update', function(req, res) {
+			db.open(function(err, db) {
+				if (!err) {
+					db.collection('complexContact').insert(req.body);
+
+					db.collection('complexContact').find().toArray(function(err, data) {
+						if (!err) {
+							res.send(data);
+						}
+					});
+				}
+			});
+		
+		});
 		app.listen(process.env.PORT);
 
 	}
