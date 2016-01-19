@@ -3,7 +3,10 @@ var mongoDB = require("mongodb"),
 	path = require("path"),
 	express = require("express"),
 	bodyParser = require('body-parser'),
-	app = express();
+	app = express(),
+	handlebars = require("handlebars");
+
+
 
 app.use(bodyParser.urlencoded({
 	extended: true

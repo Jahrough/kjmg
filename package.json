@@ -14,13 +14,16 @@
     "type": "git",
     "url": "git+https://jahlopez81@gmail.com:Jah051281@github.com/Jahrough/kjmg.git"
   },
-	"dependencies":{
-		"mongodb": "*"
-	},
+  "dependencies": {
+    "mongodb": "*"
+  },
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Jahrough/kjmg/issues"
   },
-  "homepage": "https://github.com/Jahrough/kjmg#readme"
+  "homepage": "https://github.com/Jahrough/kjmg#readme",
+  "devDependencies": {
+    "handlebars": "^4.0.5"
+  }
 }
