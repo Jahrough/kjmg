@@ -285,11 +285,11 @@ var loadContentArea = function(e) {
 	path = path || 'main';
 	path = '../' + path + '.html';
 
-	$('#contentArea').load(path, function() {
-
+	$('#contentArea').load(path, function(htmlFragment) {
+		
 		$('#complexContact-lists').on('click', '.delete', mongoDeleteFunction);
 		$('#complexContact-lists').on('click', '.update', mongoUpdateFunction);
-
+		
 		$('#contacts-lists').on('click', '.delete', deleteFunction);
 		$('#contacts-lists').on('click', '.update', updateFunction);
 

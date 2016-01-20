@@ -15,6 +15,7 @@
     "url": "git+https://jahlopez81@gmail.com:Jah051281@github.com/Jahrough/kjmg.git"
   },
   "dependencies": {
+    "express3-handlebars": "^0.5.2",
     "mongodb": "*"
   },
   "author": "",

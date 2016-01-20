@@ -4,9 +4,11 @@ var mongoDB = require("mongodb"),
 	express = require("express"),
 	bodyParser = require('body-parser'),
 	app = express(),
-	handlebars = require("handlebars");
+	expressHbs = require('express3-handlebars');
 
-
+app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'complexContact.hbs'}));
+app.set('view engine', 'hbs');
+app.set('views', __dirname + '/views/layouts');
 
 app.use(bodyParser.urlencoded({
 	extended: true
@@ -15,9 +17,23 @@ app.use(bodyParser.urlencoded({
 MongoClient.connect('mongodb://' + process.env.IP + ':27017/kjmg', function(err, db) {
 
 	if (!err) {
-
+		console.log("Connected to MongoDB");
 		app.use(express.static(__dirname + '/public'));
 
+		app.get('/complexContact', function(req, res) {
+			db.open(function(err, db) {
+				if (!err) {
+					db.collection('complexContact').find().toArray(function(err,data) {
+						if(!err){
+							res.render('complexContact',data);
+						}
+					});
+				}
+			});
+			//	db.close();
+
+		});
+		
 		app.post('/complex', function(req, res) {
 			db.open(function(err, db) {
 				if (!err) {
@@ -31,9 +47,6 @@ MongoClient.connect('mongodb://' + process.env.IP + ':27017/kjmg', function(err,
 				}
 			});
 			//	db.close();
-
-
-
 
 		});
 

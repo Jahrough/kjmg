@@ -35,7 +35,19 @@
 	<div class="col-md-7">
 
 		<ul id="complexContact-lists" class="list-group">
-			
+		    
+		    {{#each bar}}
+              {{lookup ../foo @index}}
+
+                <li class="list-group-item" data-id="{{_id}}">
+    				<input type="text" value="{{contacts[i].name}}"  readonly="readonly"/>
+    				<input type="phone" value="{{contacts[i].phone}}" readonly="readonly"/>
+    				{{contacts[i].gender}}
+    				<a href="#" class="update btn btn-default">Update</a>
+    				<a href="#" class="delete btn btn-default">delete</a>
+				</li>
+            {{/each}}
+
 		</ul>
 	</div>
 
