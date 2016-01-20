@@ -83,7 +83,8 @@ MongoClient.connect('mongodb://' + process.env.IP + ':27017/kjmg', function(err,
 						_id: new mongoDB.ObjectID(req.body.id)
 					}, {
 						name: req.body.name,
-						phone: req.body.phone
+						phone: req.body.phone,
+						gender: req.body.gender
 					}, function(err, data) {
 						db.collection('complexContact').find().toArray(function(err, data) {
 							if (!err) {

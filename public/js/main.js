@@ -47,7 +47,7 @@ function displayFromDb(res) {
 			html += '<li class="list-group-item" data-id="' + contacts[i]._id + '">' +
 				'<input type="text" value=' + contacts[i].name + ' readonly="readonly"/>' +
 				'<input type="phone" value=' + contacts[i].phone + ' readonly="readonly"/>' +
-				contacts[i].gender +
+				'<span>'+contacts[i].gender +'</span>' +
 				'<a href="#" class="update btn btn-default">Update</a>' +
 				'<a href="#" class="delete btn btn-default">delete</a>' +
 				'</li>';
@@ -247,7 +247,7 @@ var mongoUpdateFunction = function(e) {
 	var $currentTarget = $(e.currentTarget),
 		$nameField = $currentTarget.siblings('input[type="text"]'),
 		$phoneField = $currentTarget.siblings('input[type="phone"]'),
-		$genderField = $currentTarget.siblings('input[type="radio"]');
+		$genderField = $currentTarget.siblings('span');
 
 	if ($currentTarget.text() === 'Update') {
 		$currentTarget.text('save');
@@ -265,7 +265,7 @@ var mongoUpdateFunction = function(e) {
 				'id': $dataId,
 				'name':$nameField.val(),
 				'phone': $phoneField.val(),
-				'gender': $genderField.val()
+				'gender': $genderField.text()
 			},
 			success: function(response) {
 				displayFromDb(response);
