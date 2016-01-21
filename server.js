@@ -6,7 +6,10 @@ var mongoDB = require("mongodb"),
 	app = express(),
 	expressHbs = require('express3-handlebars');
 
-app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'complexContact.hbs'}));
+app.engine('hbs', expressHbs({
+	extname: 'hbs',
+	defaultLayout: 'complexContact.hbs'
+}));
 
 app.set('view engine', 'hbs');
 
@@ -23,14 +26,28 @@ MongoClient.connect('mongodb://' + process.env.IP + ':27017/kjmg', function(err,
 		console.log("Connected to MongoDB");
 		app.use(express.static(__dirname + '/public'));
 
+		var display = function(res) {
+			return function(err, data) {
+				if (!err) {
+					db.collection('complexContact').find().toArray(function(err, data) {
+						if (!err) {
+							res.send(data);
+						}
+					});
+				}
+			};
+		};
+
 		app.get('/complexContact', function(req, res) {
 			db.open(function(err, db) {
-				var getDB =db.collection('complexContact');
-			
+				var getDB = db.collection('complexContact');
+
 				if (!err) {
-					getDB.find().toArray(function(err,docs) {
-					if(!err){
-							res.render('complexContact',{'complexContact': docs});
+					getDB.find().toArray(function(err, docs) {
+						if (!err) {
+							res.render('complexContact', {
+								'complexContact': docs
+							});
 						}
 					});
 				}
@@ -38,17 +55,11 @@ MongoClient.connect('mongodb://' + process.env.IP + ':27017/kjmg', function(err,
 			//	db.close();
 
 		});
-		
-		app.post('/complex', function(req, res) {
+
+		app.post('/add', function(req, res) {
 			db.open(function(err, db) {
 				if (!err) {
-					db.collection('complexContact').insert(req.body);
-
-					db.collection('complexContact').find().toArray(function(err, data) {
-						if (!err) {
-							res.send(data);
-						}
-					});
+					db.collection('complexContact').insert(req.body, display(res));
 				}
 			});
 			//	db.close();
@@ -63,20 +74,10 @@ MongoClient.connect('mongodb://' + process.env.IP + ':27017/kjmg', function(err,
 
 					db.collection('complexContact').remove({
 						_id: new mongoDB.ObjectID(req.body.id)
-					}, function(err, data) {
-						db.collection('complexContact').find().toArray(function(err, data) {
-							if (!err) {
-								res.send(data);
-							}
-						});
-
-					});
+					}, display(res));
 
 				}
 			});
-
-
-
 
 
 		});
@@ -90,13 +91,7 @@ MongoClient.connect('mongodb://' + process.env.IP + ':27017/kjmg', function(err,
 						name: req.body.name,
 						phone: req.body.phone,
 						gender: req.body.gender
-					}, function(err, data) {
-						db.collection('complexContact').find().toArray(function(err, data) {
-							if (!err) {
-								res.send(data);
-							}
-						});
-					});
+					}, display(res));
 
 
 				}

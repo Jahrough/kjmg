@@ -1,51 +1,9 @@
-<div id="complexContact">
-	<h2>Complex Address Book</h2>
-
-	<div class="col-md-5">
-		<div id="notice">
-			<p class="bg-danger">notice box</p>
-		</div>
-
-		<form id="complex" action="/complex" method="post">
-			<div class="form-group">
-				<label for="names">names</label>
-				<input type="text" class="form-control" id="name" name="name" placeholder="names">
-			</div>
-
-			<div class="form-group">
-				<label for="phone">phone</label>
-				<input type="text" class="form-control" id="phone" name="phone" placeholder="phone">
-			</div>
-
-			<div class="form-group">
-				<label for="male">
-					<input type="radio" name="gender" id="male" value="male"> male</label>
-
-				<label for="female">
-					<input type="radio" name="gender" id="female" value="female"> female</label>
-
-			</div>
-
-			<button type="submit" id="save-contact-btn" class="btn btn-default">Save Contact</button>
-
-		</form>
-
-	</div>
-
-	<div class="col-md-7">
-
-		<ul id="complexContact-lists" class="list-group">
-
-			{{#each complexContact}}
-			<li class="list-group-item" data-id="{{_id}}">
-				<input type="text" value="{{name}}" readonly="readonly" />
-				<input type="phone" value="{{phone}}" readonly="readonly" /> 
-				<span>{{gender}}</span>
-				<a href="#" class="update btn btn-default">Update</a>
-				<a href="#" class="delete btn btn-default">delete</a>
-			</li>
-			{{/each}}
-		</ul>
-	</div>
-
-</div>
+{{#each complexContact}}
+	<li class="list-group-item" data-id="{{_id}}">
+		<input type="text" value="{{name}}" readonly="readonly" />
+		<input type="phone" value="{{phone}}" readonly="readonly" />
+		<span>{{gender}}</span>
+		<a href="#" class="update btn btn-default">Update</a>
+		<a href="#" class="delete btn btn-default">delete</a>
+	</li>
+{{/each}}

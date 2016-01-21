@@ -282,10 +282,18 @@ var mongoUpdateFunction = function(e) {
 
 var loadContentArea = function(e) {
 	var path = e ? e.currentTarget.hash.slice(1) : window.location.hash.slice(1);
+	var serverPath = "/"+path;
 	path = path || 'main';
 	path = '../' + path + '.html';
 
-	$('#contentArea').load(path, function(htmlFragment) {
+	$('#contentArea').load(path, function() {
+	
+		$.ajax({
+			url:serverPath,
+			success:function(htmlFragment){
+			  $('#complexContact-lists').html(htmlFragment);
+			}
+		});
 		
 		$('#complexContact-lists').on('click', '.delete', mongoDeleteFunction);
 		$('#complexContact-lists').on('click', '.update', mongoUpdateFunction);
