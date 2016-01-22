@@ -1,10 +1,9 @@
 var mongoDB = require("mongodb"),
 	MongoClient = mongoDB.MongoClient,
-	path = require("path"),
-	express = require("express"),
+	expressHbs = require('express3-handlebars')
 	bodyParser = require('body-parser'),
-	app = express(),
-	expressHbs = require('express3-handlebars');
+	express = require("express"),
+	app = express();
 
 app.engine('hbs', expressHbs({
 	extname: 'hbs',
@@ -15,91 +14,71 @@ app.set('view engine', 'hbs');
 
 app.set('views', __dirname + '/views/layouts');
 
+app.use(express.static(__dirname + '/public'));
+
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
 
-/*app.use('/', routes);*/
+app.listen(process.env.PORT);
+
+
 MongoClient.connect('mongodb://' + process.env.IP + ':27017/kjmg', function(err, db) {
-
 	if (!err) {
-		console.log("Connected to MongoDB");
-		app.use(express.static(__dirname + '/public'));
 
-		var display = function(res) {
-			return function(err, data) {
-				if (!err) {
-					db.collection('complexContact').find().toArray(function(err, data) {
-						if (!err) {
-							res.send(data);
-						}
-					});
-				}
+		var collection = db.collection('complexContact'),
+			
+			// SEND UPDATE RESULTS
+			display = function(res) {
+				return function(err, data) {
+					if (!err) {
+						collection.find().toArray(function(err, data) {
+							if (!err) {
+								res.send(data);
+							}
+						});
+					}
+				};
 			};
-		};
 
+
+		// RENDER COMPLEX CONTACT TEMPLATE
 		app.get('/complexContact', function(req, res) {
-			db.open(function(err, db) {
-				var getDB = db.collection('complexContact');
-
+			collection.find().toArray(function(err, docs) {
 				if (!err) {
-					getDB.find().toArray(function(err, docs) {
-						if (!err) {
-							res.render('complexContact', {
-								'complexContact': docs
-							});
-						}
+					res.render('complexContact', {
+						'complexContact': docs
 					});
 				}
 			});
-			//	db.close();
-
 		});
 
+
+		// ADD FUNCTIONALITY
 		app.post('/add', function(req, res) {
-			db.open(function(err, db) {
-				if (!err) {
-					db.collection('complexContact').insert(req.body, display(res));
-				}
-			});
-			//	db.close();
-
+			collection.insert(req.body, display(res));
 		});
 
+
+		// DELETE FUNCTIONALITY
 		app.post('/delete', function(req, res) {
-
-			db.open(function(err, db) {
-
-				if (!err) {
-
-					db.collection('complexContact').remove({
-						_id: new mongoDB.ObjectID(req.body.id)
-					}, display(res));
-
-				}
-			});
-
+			collection.remove({
+				_id: new mongoDB.ObjectID(req.body.id)
+			}, display(res));
 
 		});
 
+
+		// UPDATE FUNCTIONALITY
 		app.post('/update', function(req, res) {
-			db.open(function(err, db) {
-				if (!err) {
-					db.collection('complexContact').update({
-						_id: new mongoDB.ObjectID(req.body.id)
-					}, {
-						name: req.body.name,
-						phone: req.body.phone,
-						gender: req.body.gender
-					}, display(res));
-
-
-				}
-			});
-
+			collection.update({
+				_id: new mongoDB.ObjectID(req.body.id)
+			}, {
+				name: req.body.name,
+				phone: req.body.phone,
+				gender: req.body.gender
+			}, display(res));
 		});
-		app.listen(process.env.PORT);
 
 	}
-
 });

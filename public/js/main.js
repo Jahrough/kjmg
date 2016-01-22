@@ -47,9 +47,9 @@ function displayFromDb(res) {
 			html += '<li class="list-group-item" data-id="' + contacts[i]._id + '">' +
 				'<input type="text" value=' + contacts[i].name + ' readonly="readonly"/>' +
 				'<input type="phone" value=' + contacts[i].phone + ' readonly="readonly"/>' +
-				'<span>'+contacts[i].gender +'</span>' +
-				'<a href="#" class="update btn btn-default">Update</a>' +
-				'<a href="#" class="delete btn btn-default">delete</a>' +
+				'<span>' + contacts[i].gender + '</span>' +
+				'<a href="#" class="update btn btn-default hide">Update</a>' +
+				'<a href="#" class="delete btn btn-default hide">delete</a>' +
 				'</li>';
 		}
 	}
@@ -263,7 +263,7 @@ var mongoUpdateFunction = function(e) {
 			url: '/update',
 			data: {
 				'id': $dataId,
-				'name':$nameField.val(),
+				'name': $nameField.val(),
 				'phone': $phoneField.val(),
 				'gender': $genderField.text()
 			},
@@ -281,23 +281,21 @@ var mongoUpdateFunction = function(e) {
 };
 
 var loadContentArea = function(e) {
-	var path = e ? e.currentTarget.hash.slice(1) : window.location.hash.slice(1);
-	var serverPath = "/"+path;
+	var path = e ? e.currentTarget.hash.slice(1) : window.location.hash.slice(1),
+		serverPath = '/' + path;
+
 	path = path || 'main';
 	path = '../' + path + '.html';
 
 	$('#contentArea').load(path, function() {
-	
-		$.ajax({
-			url:serverPath,
-			success:function(htmlFragment){
-			  $('#complexContact-lists').html(htmlFragment);
-			}
+
+		$.get(serverPath, function(htmlFragment) {
+			$('#complexContact-lists').html(htmlFragment);
 		});
-		
+
 		$('#complexContact-lists').on('click', '.delete', mongoDeleteFunction);
 		$('#complexContact-lists').on('click', '.update', mongoUpdateFunction);
-		
+
 		$('#contacts-lists').on('click', '.delete', deleteFunction);
 		$('#contacts-lists').on('click', '.update', updateFunction);
 
