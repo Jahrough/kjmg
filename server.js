@@ -65,7 +65,6 @@ MongoClient.connect('mongodb://' + process.env.IP + ':27017/kjmg', function(err,
 			collection.remove({
 				_id: new mongoDB.ObjectID(req.body.id)
 			}, display(res));
-
 		});
 
 
