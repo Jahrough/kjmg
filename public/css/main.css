@@ -17,3 +17,12 @@ input[readonly="readonly"] {
 .list-group-item:hover .btn {
     display: inline !important;
 }
+
+.nopad {
+    padding:0;
+}
+
+.padb {
+    padding-bottom: 12px;
+}
+}
