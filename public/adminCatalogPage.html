@@ -4,8 +4,12 @@
 			<a href="#categoryManagement" data-toggle="tab">Manage Category</a>
 		</li>
 		<li>
+			<a href="#attributeManagement" data-toggle="tab">Manage Attributes</a>
+		</li>
+		<li>
 			<a href="#productManagement" data-toggle="tab">Manage Product</a>
 		</li>
+		
 	</ul>
 
 	<div class="col-md-7 tab-content">
@@ -26,11 +30,6 @@
 					<label for="parentCategoryList">Parent Category</label>
 					<select name="parentCategory" class="form-control" id="parentCategoryList" disabled> </select>
 				</div>
-				<div class="form-group nopad col-md-2">
-					<label for="sortingOrder">Sorting Order</label>
-					<input type="number" name="sortingOrder" min="1" class="form-control" id="sortingOrder">
-				</div>
-
 				<div class="col-sm-12 nopad clearfix">
 					<button type="submit" class="btn btn-primary save">Save</button>
 				</div>
@@ -38,9 +37,101 @@
 
 		</div>
 
+		
+		
+		
+		<div class="tab-pane fade in" id="attributeManagement">
+			<h3 class="padb">Attribute Management</h3>
+			<form method="post">
+				<div class="form-group">
+					<label for="attributeName">Attribute Name</label>
+					<input type="text" class="form-control" id="attributeName" name="attributeName">
+				</div>
+
+				<div class="form-group">
+					<label for="attributeValue">Attribute Value</label>
+					<input type="text" class="form-control" id="attributeValue" name="attributeValue">
+				</div>
+
+				<div class="form-group">
+					<label for="parentCategoryList">Parent Category</label>
+					<div class="multiSelect parentCategory">
+						<ul>
+							<li>
+								<label for="">
+									<input type="checkbox" name=""/>
+									Label 1
+								</label>
+							</li>
+							<li>
+								<label for="">
+									<input type="checkbox" name=""/>
+									Label 2
+								</label>
+							</li>
+							<li>
+								<label for="">
+									<input type="checkbox" name="" checked="checked"/>
+									Label 3
+								</label>
+							</li>
+						</ul>
+						<ul>
+							<li>
+								Label 3
+							</li>
+						</ul>
+						
+					</div>
+				</div>
+				<div class="col-sm-12 nopad clearfix">
+					<button type="submit" class="btn btn-primary save">Save</button>
+				</div>
+			</form>
+		</div>
+		
+		
+		
 		<div class="tab-pane fade in" id="productManagement">
 
 			<h3 class="padb"> Product Management</h3>
+			<form method="post">
+
+				<div class="form-group">
+					<label for="productCategoryList">Category</label>
+					<select name="productCategoryList" class="form-control" id="productCategoryList" disabled> </select>
+				</div>
+
+
+				<div class="form-group">
+					<label for="productNames">Product Name</label>
+					<input type="text" class="form-control" id="name" name="name">
+				</div>
+
+				<div class="form-group">
+					<label for="productDescription">Product Description</label>
+					<textarea name="productDescription" class="form-control"></textarea>
+				</div>
+
+
+				<div class="form-group">
+					<label for="productPrice">Product Price</label>
+					<input type="text" class="form-control" id="price" name="price">
+				</div>
+				<div class="form-group">
+					<label for="productSku">Product Sku</label>
+					<input type="text" class="form-control" id="sku" name="sku">
+				</div>
+				<div class="form-group">
+					<label for="productQty">Product Quantity</label>
+					<input type="text" class="form-control" id="qty" name="qty">
+				</div>
+				<div class="col-sm-12 nopad clearfix">
+					<button type="submit" class="btn btn-primary save">Save</button>
+				</div>
+			</form>
 		</div>
+		
+		
 	</div>
 </div>
