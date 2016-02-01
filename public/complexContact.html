@@ -3,7 +3,7 @@
 
 	<div class="col-md-5">
 		
-		<form id="add" action="/add" method="post">
+		<form method="post">
 			<div class="form-group">
 				<label for="names">names</label>
 				<input type="text" class="form-control" id="name" name="name" placeholder="names">
@@ -16,14 +16,14 @@
 
 			<div class="form-group">
 				<label for="male">
-					<input type="radio" name="gender" id="male" value="male"> male</label>
+					<input type="radio" name="gender" id="male" value="male" checked="checked"> male</label>
 
 				<label for="female">
 					<input type="radio" name="gender" id="female" value="female"> female</label>
 
 			</div>
 
-			<button type="submit" id="save-contact-btn" class="btn btn-default add">Save Contact</button>
+			<button type="submit" class="btn btn-default save">Save</button>
 
 		</form>
 
