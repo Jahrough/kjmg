@@ -142,17 +142,20 @@
 				<div class="panel">
 					<div class="panel-heading" role="tab" id="headingOne">
 						<div class="panel-title">
-							<ul class="list-inline">
-								<li>
+							<ul class="list-inline clearfix">
+								<li class="pull-left">
+									Product 1
+								</li>
+								
+								<li class="pull-right">
+									<a class="link-btn" href="#" data-toggle="modal" data-target="#deleteModal">
+										<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+									</a>
+								</li>
+								<li class='pull-right'>
 									<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true" aria-controls="collapseOne">
-										Product 1
-        							</a>
-								</li>
-								<li>
-									<a class="link-btn" href="#" data-toggle="modal" data-target="#myModal">Edit</a>
-								</li>
-								<li>
-									<a class="link-btn" href="#" data-toggle="modal" data-target="#myModal">X</a>
+										<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+									</a>
 								</li>
 							</ul>
 
@@ -215,31 +218,10 @@
 					</div>
 				</div>
 
-				<div class="panel row">
-					<div class="panel-heading" role="tab" id="heading2">
-						<div class="panel-title">
-							<ul class="list-inline">
-								<li>
-									<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="true" aria-controls="collapseOne">
-										Product 2
-        							</a>
-								</li>
-								<li>
-									<a class="link-btn" href="#" data-toggle="modal" data-target="#myModal">Edit</a>
-								</li>
-								<li>
-									<a class="link-btn" href="#" data-toggle="modal" data-target="#myModal">X</a>
-								</li>
-							</ul>
-
-						</div>
-
-					</div>
-				</div>
 			</div>
 
 			<!-- Modal -->
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
