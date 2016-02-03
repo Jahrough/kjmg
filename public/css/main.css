@@ -2,6 +2,10 @@ input[readonly="readonly"] {
     border: 0 none;
 }
 
+.default-font-size {
+    font-size: 14px;
+}
+
 .update {
     margin: 0 10px;
 }
@@ -19,10 +23,17 @@ input[readonly="readonly"] {
 }
 
 .nopad {
-    padding:0;
+    padding: 0;
 }
 
 .padb {
     padding-bottom: 12px;
 }
+
+.margin-right {
+    margin-right: 12px;
+}
+
+.margin-left {
+    margin-left: 12px;
 }
