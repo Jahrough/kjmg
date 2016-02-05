@@ -1,7 +1,9 @@
 var mongoDB = require("mongodb"),
 	MongoClient = mongoDB.MongoClient,
+	mongoose = require('mongoose'),
+	fs = require('fs'),
 	expressHbs = require('express3-handlebars'),
-bodyParser = require('body-parser'),
+	bodyParser = require('body-parser'),
 	express = require("express"),
 	app = express();
 
@@ -9,6 +11,13 @@ app.engine('hbs', expressHbs({
 	extname: 'hbs',
 	defaultLayout: 'complexContact.hbs'
 }));
+
+
+fs.readdirSync(__dirname + '/models').forEach(function(filename) {
+	if (~filename.indexOf('.js')) {
+		require(__dirname + '/models/' + filename);
+	}
+});
 
 app.set('view engine', 'hbs');
 
@@ -22,6 +31,30 @@ app.use(bodyParser.urlencoded({
 
 app.listen(process.env.PORT);
 
+mongoose.connect('mongodb://' + process.env.IP + ':27017/kjmg');
+
+
+app.get('/contact23', function(req, res) {
+	mongoose.model('Contact').find(function(err, contact) {
+		if (!err) {
+			res.send(contact);
+		}
+	})
+
+});
+
+/*var c = new Contact({
+	name: 'mahesh003',
+	phone: '5615438975',
+	gender: 'Male'
+});*/
+
+/*c.save(function(err) {
+	Contact.find({}, function(err, doc) {
+
+	})
+});*/
+
 
 MongoClient.connect('mongodb://' + process.env.IP + ':27017/kjmg', function(err, db) {
 	if (!err) {
@@ -32,11 +65,19 @@ MongoClient.connect('mongodb://' + process.env.IP + ':27017/kjmg', function(err,
 			display = function(res) {
 				return function(err, data) {
 					if (!err) {
-						collection.find().toArray(function(err, data) {
+						/*collection.find().toArray(function(err, data) {
 							if (!err) {
 								res.send(data);
 							}
+						});*/
+						var cur = collection.find().sort({
+							'name': -1
 						});
+						var dataArr = [];
+						while (cur.hasNext()) {
+							dataArr.push(cur.next());
+						}
+						res.send(dataArr);
 					}
 				};
 			};
@@ -47,7 +88,7 @@ MongoClient.connect('mongodb://' + process.env.IP + ':27017/kjmg', function(err,
 			collection.find().toArray(function(err, docs) {
 				if (!err) {
 					res.render('complexContact', {
-						'complexContact': docs.reverse()
+						'complexContact': docs
 					});
 				}
 			});

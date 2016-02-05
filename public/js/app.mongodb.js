@@ -9,7 +9,7 @@ app.mongodb = (function() {
 			var $list = $('#complexContact-lists'),
 				html = '';
 
-			data.reverse();
+			//data.reverse();
 
 			for (var i = 0; i < data.length; i++) {
 				html += '<li class="list-group-item" data-id="' + data[i]._id + '">' +

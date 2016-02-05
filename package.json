@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "express3-handlebars": "^0.5.2",
-    "mongodb": "*"
+    "mongodb": "*",
+    "mongoose": "^4.4.1"
   },
   "author": "",
   "license": "ISC",
